@@ -1,7 +1,6 @@
 {
   "name": "fnf-after-effects-mcp",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.1",
   "description": "Local FNF After Effects MCP with native operations and offline creative skills.",
   "keywords": [
     "adobe",
@@ -43,6 +42,10 @@
   ],
   "type": "module",
   "main": "dist/index.js",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
@@ -60,12 +63,12 @@
     "docs:tools": "npm run build && node scripts/generate-tools-doc.mjs",
     "docs:tools:check": "npm run build && node scripts/generate-tools-doc.mjs --check",
     "check": "npm run skills:check && npm run typecheck && npm run typecheck:test && npm run lint && npm run format:check && npm run lint:jsx && npm run docs:tools:check",
-    "prepublishOnly": "npm run build",
     "test:offline": "vitest run --exclude \"tests/e2e/**\"",
     "doctor": "node dist/cli.js doctor",
     "skills:manifest": "node scripts/generate-skills-manifest.mjs",
     "skills:check": "node scripts/generate-skills-manifest.mjs --check && python3 scripts/validate-skills.py",
-    "test:package": "npm run build && node scripts/verify-package.mjs"
+    "test:package": "npm run build && node scripts/verify-package.mjs",
+    "prepack": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
