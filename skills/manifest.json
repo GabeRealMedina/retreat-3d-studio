@@ -21,7 +21,7 @@
       "name": "ae-clean-rig",
       "description": "Primary entry point for every native After Effects task through the local MCP. Use whenever the user asks to build, create, edit, rebuild, animate, fix, inspect, verify or render an After Effects project, composition, layer, text, shape, mask, effect, expression, keyframe or frame — including reference recreation and cleanup work. Builds clean native projects, preserves reference appearance and motion, exposes useful controls, and verifies rendered results. Load this before any other ae- skill; it routes to the companion modules itself through ae_get_skill, so those must not be selected on their own. When another ae- skill names the specific subject of the request in its own description, that skill takes precedence over this one.",
       "documents": {
-        "SKILL.md": "9602f344e926998fad7f52ad0301f654fe43d41e33a74b77ffcc5482fddbd530",
+        "SKILL.md": "72ee4558a74f9d5d0010acc4ca8a462cd1645b457f36f2ce7c6c12989ed1897d",
         "references/01-construction.md": "55bb5d6b1c6c47d781785887acc6a2756141d376b6d14288d5896083bc99858a",
         "references/02-reference-motion.md": "2ce67d51d84e9d1a69276cab4189995f709a74cd864ba76b77b57f421a15a6f2",
         "references/03-typography.md": "a20b74746d65fd13e24daf35e182a14d3dc6b63114e6a93d6a82e188b6561b4b",
@@ -37,7 +37,25 @@
         "references/13-localization.md": "a4b401b0fcfcbd9ef7084c76da744f1253547e811e3fa1d3db370e88c0feefbe",
         "references/14-localization-typography.md": "0d20d9cb5b0acbdff7f875e286c975335212fd76988424474d8d24b9fd5d94ff",
         "references/15-localization-collect.md": "0c7cccd3d867c4bfcb3f4dbfaac45b721ed5bc2665cca29ff67efb4aa8afa9ad",
-        "references/16-localization-recut.md": "71afd97692a7e0a16ad023d5b788e4288ede8242038765420a066a8edd5edcaf"
+        "references/16-localization-recut.md": "71afd97692a7e0a16ad023d5b788e4288ede8242038765420a066a8edd5edcaf",
+        "references/17-visual-foundation.md": "f797a1c2d45d43cafa20b21ce7b40a24045bc47d6d5f01da9972adc54bff0f2d",
+        "references/boards/animation-transfer.md": "d51cd20e2a31f0f76808e9d019fce7aa990af5bd2342c8f777d9edaa49ed0846",
+        "references/boards/artwork-and-interaction.md": "87f29df5dd0e6e8fdb3342c36834b321bbd1e0f5fdec2456f88d0c32d523e2d4",
+        "references/boards/camera-and-easing.md": "107775337df71d5ce40481b6a21eed3231a10d9dca9b0b27355b1f8a485be279",
+        "references/boards/motion-design.md": "5dfda9046cc60a8c0b5f29836b62ce75430e3a0dae09455c2dcb28f3a5ca0b84",
+        "references/boards/native-execution.md": "38f8afc51263b9bb9bb57d801b0803f5f90ac3f970d6ca2faa63939c73bdc273",
+        "references/boards/overview.md": "43036388af76e5cd3e037d8f49a63a2427ad9bb6128b16c0212d77fbd0dd249c",
+        "references/characters/artwork-and-materials.md": "781fed5cf5acd18a9fa883763830e3640ea84724d5280f3278942d733b38ecd9",
+        "references/characters/character-performance.md": "cb993030062707da877e60bed803590fd088cc68c179872d8604d1cf1cbf0ba5",
+        "references/characters/native-execution.md": "ce80132cd0d4935e35bea65b920b22c04517ecca50903a44781f61af1253ad7a",
+        "references/characters/overview.md": "3df5450e4a6b3d75843bccd668316f7e9a53543e00919ddef66af2444f204917",
+        "references/collage/motion-and-depth.md": "4cf0f7c17d9031092eefe37719514f08af698355a4a9a043d159187799a04f24",
+        "references/collage/native-execution.md": "7c1ddf937f0d5c96875fa6d72a3b399a00933bcf164036166d4dcb6236879af4",
+        "references/collage/overview.md": "272517b0a572795332919e15da162560499989e1a8ee4aa92ea0744efa0ca52b",
+        "references/collage/paper-and-print.md": "1f8600ca3095218de58e9f0d3ddbe6c70cf5a08440aa51a498b1f2329b8e4968",
+        "references/collage/prompt-interface.md": "a28f495db0ecd8d673c5c1c54b19d4503b5e41dc194cb23214d69cc4cfd67948",
+        "references/collage/reference-and-review.md": "911d61225424110ddbc6cd185ea27b362bf51de12a95c62c8ed216947c111d25",
+        "references/collage/science-details.md": "5e7250cf58e165a9c715c7a9ea864a18a46b1e920ddfff066afadb408be16810"
       }
     },
     {

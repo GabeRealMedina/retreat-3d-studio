@@ -11,15 +11,15 @@ Treat the reference's appearance and motion as the target, and editable semantic
 
 ## No reference attached
 
-When the request is text only — no link, image, video or existing composition to work from — say so before building. A described-from-words scene is the weakest possible brief, and building straight from it is how a project turns generic.
+When the request is text only — no link, image, video or existing composition to work from — say so before building, and settle the visual foundation first.
 
-Ask the user which they want, with `ask_user_question` when that tool is available and as a plain question otherwise:
+Ask the user which route they want, with `ask_user_question` when that tool is available and as a plain question otherwise:
 
-- **Generate a storyboard first.** If an image-generation provider is connected in this session, offer to produce a panel sheet with **Recraft V4.1** (`recraft_v4_1`, vector mode) — it is the model suited to flat vector panels, logos, icons and stick-figure blocking, which is what a storyboard for native AE construction needs. Build the approved sheet into the scene plan, then construct from it.
+- **Generate a foundation.** A moodboard of four directions, then a storyboard sheet built from the frame the user picks, then construction from that sheet. Read [17 · Visual foundation](references/17-visual-foundation.md) before starting: the two stages are not interchangeable, and a storyboard generated without a chosen moodboard frame has nothing holding its panels together.
 - **Supply a reference.** The user attaches an image, a video or a link, and the work proceeds from real evidence.
 - **Proceed from the text anyway.** Allowed, but state plainly that composition, palette and timing will be invented, and record which decisions were yours.
 
-This server generates nothing itself. If no provider is connected, offer only the last two options and say why.
+This server generates nothing itself. The first route needs an image-generation provider connected in this session; when none is, offer only the last two and say why.
 
 ## Essential workflow
 
@@ -32,7 +32,7 @@ This server generates nothing itself. If no provider is connected, offer only th
 
 ## Read the module that changes the current decision
 
-Load one module with `ae_get_skill({name: "ae-clean-rig", reference: "references/01-construction.md"})`, or follow the relative link when reading from disk. Do not load every module for a small correction.
+Load one module with `ae_get_skill({name: "ae-clean-rig", reference: "references/01-construction.md"})`, or follow the relative link when reading from disk. Grouped modules keep their folder in the path — `reference: "references/characters/overview.md"` — and a shortened path is rejected as an unknown reference. Do not load every module for a small correction.
 
 | When the task involves | Read |
 | --- | --- |
@@ -43,15 +43,20 @@ Load one module with `ae_get_skill({name: "ae-clean-rig", reference: "references
 | New photographic stills or footage, where a plate comes from, generation settings and packaging | [05 · Media](references/05-media-generation.md) |
 | Precomps, replaceable elements, null controls, Essential Properties and shared sources | [06 · Editable rigs](references/06-editable-rigs.md) |
 | A gallery, Coverflow, cyclic slider, curved 3D loop or user-animatable camera | [07 · Controlled sliders](references/07-sliders.md) |
-| Mascot and agent silhouettes, blink, gaze, smooth head turns and subtle parallax | [08 · Characters](references/08-characters.md) |
+| One mascot or agent: silhouette quality, a compact rig, blink, gaze and head-turn parallax. Narrow add-on, not a whole character piece | [08 · Characters](references/08-characters.md) |
 | Final checks, 2K upgrades, render defects or delivery and packaging | [09 · Validation and delivery](references/09-validation-delivery.md) |
 | Scripting and expressions, timeouts, property references or renderer inconsistencies | [10 · AE scripting](references/10-ae-scripting.md) |
-| Articulated characters, hand and foot IK, pose libraries, character lighting and texture compositing | [11 · Character production](references/11-character-production.md) |
-| Animals made from glyphs, stepped pose catalogues, symbol gardens or text-to-character assembly | [12 · Symbol characters and catalogues](references/12-symbol-characters.md) |
+| The same execution questions inside a group's own subject | `references/boards/native-execution.md`, `references/collage/native-execution.md`, `references/characters/native-execution.md` — each is scoped to its group and is not interchangeable with 10 or with the others |
+| A jointed figure that must hold poses: controller and coordinate design, hand and foot IK, pose libraries, lighting and compositing passes. Narrow add-on | [11 · Character production](references/11-character-production.md) |
+| Characters assembled out of glyphs and type, pose sheets and typographic scenery. Narrow add-on, unrelated to drawn artwork | [12 · Symbol characters and catalogues](references/12-symbol-characters.md) |
 | Translating a project, language versions, glossary and localization coverage | [13 · Localization](references/13-localization.md) |
 | Fitting translated text, fonts and glyph coverage, counters and optical alignment | [14 · Localized typography](references/14-localization-typography.md) |
 | Missing or unlicensed effects, project cleanup, Collect Files and handover packages | [15 · Dependencies and collection](references/15-localization-collect.md) |
 | Cutting language versions to match a supplied short video reference | [16 · Recut from a video reference](references/16-localization-recut.md) |
+| A text-only brief with nothing attached: moodboard, frame choice, storyboard sheet | [17 · Visual foundation](references/17-visual-foundation.md) |
+| A whiteboard, sticky-note board or collaboration canvas: notes, cursors, staged entrances, board camera | [Boards](references/boards/overview.md) |
+| Editorial photographic collage: paper and print texture, depth travel, animated prompt interfaces | [Collage](references/collage/overview.md) |
+| **Animating drawn or illustrated characters end to end** — the complete pipeline: reading the artwork, contour deformation with vertex correspondence, connected anatomy, grain and shading that survive movement, a stepped cadence, and worked scene recipes. Start here for any illustrated character piece; 08, 11 and 12 are add-ons to it, not alternatives | [Characters · pipeline](references/characters/overview.md) |
 
 ## Companion routing
 
