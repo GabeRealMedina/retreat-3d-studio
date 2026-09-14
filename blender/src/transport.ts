@@ -124,7 +124,7 @@ export class BlenderTransport {
     return job;
   }
 
-  async execute(code: string, timeoutSeconds = 120): Promise<JobResult> {
+  async execute(code: string, timeoutSeconds = 120, mutates = true): Promise<JobResult> {
     if (!code || code.length > 1_000_000) throw new Error("Python source must contain 1–1000000 characters.");
     await this.start();
     if (this.active) throw new Error(`Blender is busy; job_id=${this.active.id}. Use bl_job_status before sending another command.`);
@@ -135,7 +135,7 @@ export class BlenderTransport {
     return new Promise<JobResult>((resolve, reject) => {
       const timer = setTimeout(() => reject(new Error(`Blender is still running; job_id=${id}. Use bl_job_status on this MCP session before retrying. No automatic retry or cancellation was sent.`)), timeoutSeconds * 1000);
       this.active = { id, finish: result => { clearTimeout(timer); resolve(result); } };
-      this.child!.stdin.write(JSON.stringify({ job_id: id, code }) + "\n", error => { if (error) this.fail(error); });
+      this.child!.stdin.write(JSON.stringify({ job_id: id, code, mutates }) + "\n", error => { if (error) this.fail(error); });
     });
   }
 

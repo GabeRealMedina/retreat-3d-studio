@@ -89,6 +89,26 @@ test('stdio MCP owns a persistent process, returns images/errors, and cleans up 
     assert.equal(health.structuredContent.result.background,true);
     pid = health.structuredContent.result.pid;
     assert.equal(health.structuredContent.result.version,'fixture-4.2');
+    assert.equal(health.structuredContent.result.dirty,false);
+    const project=join(directory,'scene.blend');
+    await writeFile(project,'fixture');
+    await call('bl_execute',{code:`import bpy, types
+bpy.ops = types.SimpleNamespace(wm=types.SimpleNamespace(save_as_mainfile=lambda **kw: {'FINISHED'}, open_mainfile=lambda **kw: {'FINISHED'}))`});
+    assert.equal((await call('bl_health')).structuredContent.result.dirty,true);
+    assert.equal((await call('bl_open_project',{path:project})).isError,true);
+    await call('bl_save_project',{path:project,overwrite:true});
+    assert.equal((await call('bl_health')).structuredContent.result.dirty,false);
+    assert.equal(Boolean((await call('bl_open_project',{path:project})).isError),false);
+    await call('bl_execute',{code:"import bpy\nbpy.context.scene.name = 'partial'\nraise ValueError('after edit')"});
+    assert.equal((await call('bl_health')).structuredContent.result.dirty,true);
+    assert.equal((await call('bl_save_project',{path:project})).isError,true);
+    assert.equal((await call('bl_open_project',{path:project})).isError,true);
+    await call('bl_execute',{code:"import bpy\nbpy.ops.wm.save_as_mainfile = lambda **kw: {'CANCELLED'}"});
+    assert.equal((await call('bl_save_project',{path:project,overwrite:true})).isError,true);
+    assert.equal((await call('bl_health')).structuredContent.result.dirty,true);
+    await call('bl_open_project',{path:project,discard_unsaved:true});
+    assert.equal((await call('bl_health')).structuredContent.result.dirty,false);
+
     await call('bl_execute',{code:"import bpy\nbpy.context.scene.name = 'persisted'\nprint('hello')\nresult = 42"});
     assert.equal((await call('bl_health')).structuredContent.result.scene,'persisted');
     const result = await call('bl_execute',{code:"result = {'answer':42}"});

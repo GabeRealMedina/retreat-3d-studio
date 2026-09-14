@@ -40,7 +40,8 @@ export function createServer(transport = new BlenderTransport()): McpServer {
       annotations: { readOnlyHint: tool.readOnly, destructiveHint: !tool.readOnly, idempotentHint: tool.readOnly, openWorldHint: tool.name === "bl_execute" },
     }, async args => {
       try {
-        return await formatResult(await transport.execute(tool.code(args), tool.name === "bl_render" ? 300 : 120));
+        const mutates = !tool.readOnly && !["bl_save_project", "bl_open_project"].includes(tool.name);
+        return await formatResult(await transport.execute(tool.code(args), tool.name === "bl_render" ? 300 : 120, mutates));
       } catch (error) { return errorResult(error); }
     });
   }

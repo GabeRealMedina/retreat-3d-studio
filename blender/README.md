@@ -10,12 +10,12 @@ Each MCP connection owns one process. Its scene persists between commands; it ca
 
 ## Setup
 
-Requires Node.js 24+ with npm and Blender 4.2+. Version 0.2.0 introduces the background runtime; version 0.1.0 uses the previous add-on. Verify that 0.2.0 is published before installing it; this source change alone does not publish a release.
+Requires Node.js 24+ with npm and Blender 4.2+. Version 0.2.0 introduces the background runtime; version 0.1.0 uses the previous add-on. Install the latest published version (0.2.0 or newer); rerun the install command to update an existing installation.
 
 ```sh
-npm view fnf-blender-mcp@0.2.0 version --registry=https://registry.npmjs.org/
+npm view fnf-blender-mcp@latest version --registry=https://registry.npmjs.org/
 blenderDir="$HOME/.higgsfield/blender-mcp"
-npm install --prefix "$blenderDir" --registry=https://registry.npmjs.org/ fnf-blender-mcp@0.2.0
+npm install --prefix "$blenderDir" --registry=https://registry.npmjs.org/ fnf-blender-mcp@latest
 blenderCli="$blenderDir/node_modules/fnf-blender-mcp/dist/cli.js"
 node "$blenderCli" doctor --blender "/absolute/path/to/blender"
 node "$blenderCli" config --blender "/absolute/path/to/blender" --format json
@@ -39,6 +39,8 @@ The server starts Blender on its first execution call. `doctor` checks a separat
 | Offline guidance | `bl_get_skill` |
 
 Start with `bl_get_skill(name: "blender-scene")`. Python runs sequentially on the process's main thread. Scene datablocks persist, while script-local variables do not. Assign a JSON-compatible `result` to return data. Python stdout/stderr are capped at 64 Ki characters each; JSON results are limited to 4 MiB. Native Blender diagnostics do not enter the MCP stdout protocol.
+
+The npm archive also contains the eleven craft modules introduced in 0.2.1. Install the complete `skills/` bundle in a client that supports local skills to load those modules; `bl_get_skill` still exposes only its existing five names. Connecting the MCP server alone does not install the additional skills in the client.
 
 Render a camera frame to PNG; files up to 4 MiB receive an inline preview. Cycles supports sample overrides. Save/render require `overwrite: true` for existing output files; opening a different project refuses unsaved changes unless explicitly discarded. Arbitrary Python is not sandboxed and can bypass these typed-tool guards. Automatic execution of Python embedded in opened `.blend` files is disabled.
 
@@ -66,3 +68,5 @@ Offline tests exercise actual MCP and child-process pipes using a Python CLI fix
 Verified on macOS arm64 with Blender 4.2.23 LTS: persistent scene, mesh/material/camera/light edits, keyframes, save/reopen guards and a Cycles PNG preview. Windows/Linux native Blender execution has not been verified locally.
 
 See [RELEASING.md](RELEASING.md) for release steps. The setup skill is mirrored in fnf-mcp-server's `/use-blender` command; keep its body and references synchronized. See [UPSTREAM.md](UPSTREAM.md) for provenance and [LICENSE](LICENSE) for the MIT license.
+
+Background Blender does not reliably mark direct Python edits as dirty. The MCP also tracks attempted mutations, including failed commands and arbitrary `bl_execute` calls, conservatively as unsaved until `bl_save_project` or an explicitly permitted `bl_open_project` succeeds. Read tools preserve this state.

@@ -9,6 +9,7 @@ import traceback
 PREFIX = "HF_BLENDER_JSON:"
 MAX_RESULT = 4 * 1024 * 1024
 MAX_REQUEST = 8 * 1024 * 1024
+SESSION = {"dirty": False}
 
 
 class BoundedText(io.TextIOBase):
@@ -30,10 +31,16 @@ def execute(request):
     code = request["code"]
     if not isinstance(code, str) or not 0 < len(code) <= 1_000_000:
         raise ValueError("Invalid Python source length")
+    mutates = request.get("mutates", True)
+    if not isinstance(mutates, bool):
+        raise ValueError("Invalid mutation flag")
     stdout, stderr = BoundedText(), BoundedText()
     response = {"job_id": job_id, "state": "completed"}
     try:
-        namespace = {"__name__": "__blender_mcp__"}
+        namespace = {"__name__": "__blender_mcp__", "_mcp_session": SESSION}
+        # Background RNA writes may leave bpy.data.is_dirty false, even after partial failure.
+        if mutates:
+            SESSION["dirty"] = True
         with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
             exec(compile(code, "<blender-mcp>", "exec"), namespace)
         result = namespace.get("result")

@@ -29,8 +29,17 @@ try {
   await call('bl_add_camera',{name:'MCP Validation Camera'});
   await call('bl_add_light',{type:'AREA',location:[2,-2,4],energy:500});
   await call('bl_save_project',{path});
+  assert.equal((await call('bl_health')).structuredContent.result.dirty,false);
+  await call('bl_get_scene_summary');
+  await call('bl_open_project',{path});
   await call('bl_save_project',{path},false);
   await call('bl_set_transform',{name:'MCP Validation Cube',location:[0,0,2]});
+  assert.equal((await call('bl_health')).structuredContent.result.dirty,true);
+  await call('bl_open_project',{path},false);
+  await call('bl_open_project',{path,discard_unsaved:true});
+  assert.equal((await call('bl_health')).structuredContent.result.dirty,false);
+  await call('bl_execute',{code:"import bpy\nbpy.context.scene['partial_edit'] = True\nraise ValueError('after edit')"},false);
+  await call('bl_save_project',{path},false);
   await call('bl_open_project',{path},false);
   await call('bl_open_project',{path,discard_unsaved:true});
   const object=(await call('bl_get_object',{name:'MCP Validation Cube'})).structuredContent.result;
