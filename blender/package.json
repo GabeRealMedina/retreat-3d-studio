@@ -1,6 +1,6 @@
 {
   "name": "fnf-blender-mcp",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Higgsfield use Blender: local stdio MCP controlling a background Blender process without add-ons.",
   "type": "module",
   "license": "MIT",

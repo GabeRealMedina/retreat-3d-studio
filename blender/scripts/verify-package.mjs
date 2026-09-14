@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtemp, readFile, rm, access, realpath } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm, access, realpath } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -18,6 +18,10 @@ try {
   execFileSync('npm', ['install', '--prefix', directory, '--ignore-scripts', '--no-audit', '--no-fund', archive], { stdio: 'pipe' });
   const installed = join(directory, 'node_modules/fnf-blender-mcp');
   for (const path of ['scripts/background_runner.py', 'skills/use-blender/SKILL.md']) await access(join(installed, path));
+  const skillFiles = (await readdir(join(root, 'skills'), { recursive: true })).filter(path => path.endsWith('.md'));
+  for (const path of skillFiles) {
+    assert.deepEqual(await readFile(join(installed, 'skills', path)), await readFile(join(root, 'skills', path)), `Packaged skill differs: ${path}`);
+  }
   const config = JSON.parse(execFileSync(process.execPath, [join(installed, 'dist/cli.js'), 'config', '--blender', process.execPath], { encoding: 'utf8' }));
   assert.equal(config.mcpServers['higgsfield-use-blender'].args[0], await realpath(join(installed, 'dist/index.js')));
   await client.connect(new StdioClientTransport({ command: process.execPath, args: [join(installed, 'dist/index.js')], env: { BLENDER_EXECUTABLE: join(directory, 'missing-blender') }, stderr: 'pipe' }));
@@ -27,7 +31,7 @@ try {
   const health = await client.callTool({ name: 'bl_health', arguments: {} });
   assert.equal(health.isError, true);
   assert.match(health.content[0].text, /BLENDER_EXECUTABLE/);
-  console.log(`Package verified from isolated install: ${packed.filename}; 19 tools, offline skills, setup files and actionable missing-Blender error.`);
+  console.log(`Package verified from isolated install: ${packed.filename}; 19 tools, ${skillFiles.length} matching skill documents, setup files and actionable missing-Blender error.`);
 } finally {
   await client.close();
   await rm(directory, { recursive: true, force: true });
