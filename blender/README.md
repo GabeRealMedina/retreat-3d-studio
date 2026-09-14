@@ -68,3 +68,5 @@ Offline tests exercise actual MCP and child-process pipes using a Python CLI fix
 Verified on macOS arm64 with Blender 4.2.23 LTS: persistent scene, mesh/material/camera/light edits, keyframes, save/reopen guards and a Cycles PNG preview. Windows/Linux native Blender execution has not been verified locally.
 
 See [RELEASING.md](RELEASING.md) for release steps. The setup skill is mirrored in fnf-mcp-server's `/use-blender` command; keep its body and references synchronized. See [UPSTREAM.md](UPSTREAM.md) for provenance and [LICENSE](LICENSE) for the MIT license.
+
+Background Blender does not reliably mark direct Python edits as dirty. The MCP also tracks attempted mutations, including failed commands and arbitrary `bl_execute` calls, conservatively as unsaved until `bl_save_project` or an explicitly permitted `bl_open_project` succeeds. Read tools preserve this state.

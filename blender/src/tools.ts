@@ -293,7 +293,7 @@ result = _info`,
 BL_TOOLS.push(
   scriptTool("bl_health", "Inspect Blender", "Start or inspect this MCP session’s background Blender. Returns its version, PID, active file and scene; does not inspect an open desktop window.", {}, `import os
 result = {"version": bpy.app.version_string, "pid": os.getpid(), "background": bpy.app.background,
-          "file": bpy.data.filepath, "dirty": bpy.data.is_dirty, "scene": bpy.context.scene.name}`),
+          "file": bpy.data.filepath, "dirty": _mcp_session["dirty"] or bpy.data.is_dirty, "scene": bpy.context.scene.name}`),
   scriptTool("bl_save_project", "Save Blender Project", "Save the current scene to an absolute .blend path. Existing files require overwrite=true.", {
     path: z.string().min(1), overwrite: z.boolean().default(false),
   }, `import os
@@ -302,7 +302,9 @@ if not os.path.isabs(_path) or not _path.lower().endswith(".blend"):
     raise ValueError("Provide an absolute .blend path")
 if os.path.exists(_path) and not _args["overwrite"]:
     raise ValueError("File exists; use a new path or explicitly set overwrite=true")
-bpy.ops.wm.save_as_mainfile(filepath=_path, check_existing=False)
+if "FINISHED" not in bpy.ops.wm.save_as_mainfile(filepath=_path, check_existing=False):
+    raise RuntimeError("Project save did not finish")
+_mcp_session["dirty"] = False
 result = {"path": bpy.data.filepath, "saved": not bpy.data.is_dirty}`),
   scriptTool("bl_open_project", "Open Blender Project", "Replace the active project with an existing .blend file. Refuses unsaved changes unless discard_unsaved=true.", {
     path: z.string().min(1), discard_unsaved: z.boolean().default(false),
@@ -310,9 +312,11 @@ result = {"path": bpy.data.filepath, "saved": not bpy.data.is_dirty}`),
 _path = _args["path"]
 if not os.path.isabs(_path) or not os.path.isfile(_path) or not _path.lower().endswith(".blend"):
     raise ValueError("Provide an existing absolute .blend path")
-if bpy.data.is_dirty and not _args["discard_unsaved"]:
+if (_mcp_session["dirty"] or bpy.data.is_dirty) and not _args["discard_unsaved"]:
     raise ValueError("The current project has unsaved changes; save first or explicitly set discard_unsaved=true")
-bpy.ops.wm.open_mainfile(filepath=_path, use_scripts=False)
+if "FINISHED" not in bpy.ops.wm.open_mainfile(filepath=_path, use_scripts=False):
+    raise RuntimeError("Project open did not finish")
+_mcp_session["dirty"] = False
 result = {"path": bpy.data.filepath, "scene": bpy.context.scene.name}`),
   scriptTool("bl_insert_keyframe", "Insert Object Keyframe", "Key the current location, Euler rotation or scale of a named object at a frame.", {
     name: z.string().min(1), property: z.enum(["location", "rotation_euler", "scale"]), frame: z.number().int(),
