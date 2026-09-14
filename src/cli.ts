@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { resolve, sep } from "node:path";
 import { PACKAGE_ROOT, DISPATCHER_JSX, resolveAfterFxPath } from "./config.js";
 import { SkillStore } from "./skills.js";
 
@@ -59,7 +59,14 @@ try {
     );
     process.exitCode = ok ? 0 : 1;
   } else if (command === "install-codex") {
-    if (!existsSync(entry)) throw new Error("Run npm run build before installing.");
+    if (PACKAGE_ROOT.split(sep).includes("_npx"))
+      throw new Error(
+        "Install a persistent copy first: npm install --global fnf-after-effects-mcp, then run fnf-after-effects install-codex. An npx cache path must not be saved in Codex configuration.",
+      );
+    if (!existsSync(entry))
+      throw new Error(
+        "Server files are missing. Reinstall the npm package, or build a source checkout with npm run build.",
+      );
     const listed = spawnSync("codex", ["mcp", "list", "--json"], { encoding: "utf8" });
     if (listed.error || listed.status !== 0)
       throw new Error(

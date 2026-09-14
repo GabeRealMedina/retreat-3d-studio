@@ -72,7 +72,7 @@ npm run test:offline
 
 Edit `skills/` directly, then regenerate `skills/manifest.json` and commit it together with the skill changes. Generation writes only the manifest, works with uncommitted edits and requires no Git metadata. `npm run skills:check` rejects stale descriptions, hashes, missing entries and invalid reference links. The version 2 manifest uses document hashes instead of `sourceCommit`; `ae_get_skill` no longer returns that obsolete snapshot field. Live tests under `tests/e2e` have separate prerequisites; offline success does not prove rendering on your AE installation. See [VALIDATION.md](docs/VALIDATION.md) for the actual checks performed on this fork.
 
-The root After Effects package remains marked private in this checkout. Do not use the upstream package name when installing this fork. Historical upstream documentation is preserved in `docs/UPSTREAM-README.md` for reference.
+The root After Effects package publishes to the public npm registry as `fnf-after-effects-mcp`. Install the current release with `npm install --global --ignore-scripts fnf-after-effects-mcp@0.1.1`. Do not use the upstream package name when installing this fork. Historical upstream documentation is preserved in `docs/UPSTREAM-README.md` for reference.
 
 ## Blender development and releases
 
