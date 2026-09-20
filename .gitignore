@@ -16,6 +16,10 @@ coverage/
 # Local MCP client wiring pointing at this checkout. Per-developer, and the
 # README tells users to write their own.
 .mcp.json
+/plugins/*/runtime/
+/plugins/*/skills/
+/plugins/*/mcp-config.toml
+/blender/validation-output/
 
 # Ephemeral file-IPC state exchanged with After Effects (request/response
 # JSON, dispatcher log, test-time project backups) — never committed.

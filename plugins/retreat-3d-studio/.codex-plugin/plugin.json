@@ -1,0 +1,33 @@
+{
+  "name": "retreat-3d-studio",
+  "version": "0.1.0",
+  "description": "Create, revise, render and export editable Blender models with persistent revision files.",
+  "author": {
+    "name": "GabeRealMedina"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Retreat 3D Studio",
+    "shortDescription": "Create and keep improving editable 3D models.",
+    "longDescription": "Personal Blender modeling tools adapted from Higgsfield’s local MCP bridge, with non-overwriting revisions, GLB exports and a workflow for resuming saved models.",
+    "developerName": "GabeRealMedina",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Create an editable 3D model and save a revision.",
+      "Open my saved model and refine it.",
+      "Render this scene and export a GLB."
+    ]
+  },
+  "license": "MIT",
+  "keywords": [
+    "blender",
+    "3d",
+    "modeling",
+    "revisions",
+    "higgsfield"
+  ],
+  "mcpServers": "./.mcp.json"
+}

@@ -30,8 +30,8 @@ export async function formatResult(job: JobResult): Promise<CallToolResult> {
   return { content, structuredContent, ...(job.ok === false ? { isError: true } : {}) };
 }
 
-export function createServer(transport = new BlenderTransport()): McpServer {
-  const server = new McpServer({ name: "higgsfield-use-blender", title: "Higgsfield use Blender", version: packageInfo.version }, {
+export function createServer(transport = new BlenderTransport(), identity = { name: "higgsfield-use-blender", title: "Higgsfield use Blender", version: packageInfo.version }): McpServer {
+  const server = new McpServer(identity, {
     instructions: "Control a dedicated background Blender process; it cannot access an open desktop window. Save .blend files before disconnecting; unsaved state is lost on reconnect. Read bl_get_skill(blender-scene), then bl_health and bl_get_scene_summary before edits. Prefer typed tools; use bl_execute for other bpy operations. Commands can partially mutate before errors. On timeout, query bl_job_status; never blindly retry. Render and view results. Cloud generation is provided by a separate Higgsfield MCP, not this server.",
   });
   for (const tool of BL_TOOLS) {

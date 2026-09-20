@@ -1,3 +1,11 @@
+# Retreat 3D Studio
+
+Personal Blender modeling plugin for ChatGPT and Codex. Adds preserved model revisions, GLB export and a reusable modeling workflow to Higgsfield's MIT-licensed local Blender bridge.
+
+**[Start here: build, connect and use Retreat 3D Studio](RETREAT-START-HERE.md)** · [Source selection](RETREAT-SOURCES.md)
+
+The original upstream documentation follows. For this plugin, build from `blender/`; the root After Effects runtime is independent.
+
 # Higgsfield local application MCPs
 
 Independent local MCP packages for After Effects (repository root) and [Blender](blender/README.md). Each package has its own dependencies, build, tests and release.
