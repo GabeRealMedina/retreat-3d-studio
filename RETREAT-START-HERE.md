@@ -14,7 +14,7 @@ The source fork is [GabeRealMedina/retreat-3d-studio](https://github.com/GabeRea
 
 ## Build
 
-Requires Node 24+, npm and Blender 4.2+. The current machine has Blender 5.2.1 LTS. From the repository:
+The isolated personal plugin requires macOS, Node 24+, npm and a Blender 4.2+ app bundle. The current machine has Blender 5.2.1 LTS. From the repository:
 
 ```sh
 cd blender
@@ -27,7 +27,7 @@ This builds `plugins/retreat-3d-studio`, including runtime dependencies and skil
 
 ## Connect locally
 
-Use the generated `.mcp.json` in a client supporting local stdio MCP. The command is the Node executable, the sole argument is the absolute `runtime/dist/retreat-index.js` path, and `BLENDER_EXECUTABLE` selects Blender. The generated `mcp-config.toml` supplies the equivalent Codex configuration with a 360-second tool timeout. Merge that named entry without replacing unrelated settings, or install the personal plugin package through Codex.
+Use the generated `.mcp.json` in a client supporting local stdio MCP. The command is the Node executable, the sole argument is the absolute `runtime/scripts/sandbox-launch.mjs` path, and `BLENDER_EXECUTABLE` selects Blender. `RETREAT_MODELS_ROOT` identifies the allowed model workspace. The launcher confines both MCP and Blender processes and has no unrestricted fallback. The generated `mcp-config.toml` supplies the equivalent Codex configuration with a 360-second tool timeout. Merge that named entry without replacing unrelated settings, or install the personal plugin package through Codex.
 
 After connecting, ask: “Use Retreat 3D Studio. Read retreat_workflow, check Blender health, and create a model that we can save and keep updating.”
 
@@ -37,7 +37,7 @@ For an existing model, give the last saved `.blend` path. The plugin controls it
 
 The local server uses stdio; it is not an HTTPS URL. For a private local machine, OpenAI documents [Secure MCP Tunnel](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels). A tunnel requires Platform tunnel permissions, a runtime credential, the target ChatGPT workspace association and developer-mode access. These account-specific prerequisites are not supplied by this source repository.
 
-Once an authorized tunnel is created, configure its local MCP command to launch Node with the absolute Retreat entry-point path and provide `BLENDER_EXECUTABLE` in the local service environment. Keep the tunnel client running, then choose that tunnel when creating the ChatGPT developer-mode plugin. Follow the linked official guide for current setup and access requirements. Do not paste credentials into source control or chat messages.
+Once an authorized tunnel is created, configure its local MCP command to use the private tunnel launcher, which reads the installed plugin configuration and requires the isolated entry point. Keep the tunnel client running, then choose that tunnel when creating the ChatGPT developer-mode plugin. Follow the linked official guide for current setup and access requirements. Do not paste credentials into source control or chat messages.
 
 No tunnel or public endpoint is automatically deployed by this build. See [private tunnel operation](RETREAT-TUNNEL.md) for the launcher, private credential storage, health checks and restart instructions used by the personal installation. For a local desktop client with stdio support, the generated local configuration is sufficient; account UI and feature availability still need to be checked in that client.
 
@@ -49,7 +49,7 @@ No tunnel or public endpoint is automatically deployed by this build. See [priva
 4. Export a GLB when needed; the `.blend` file remains the editable master.
 5. Give the next conversation the saved `.blend` path.
 
-Models belong in a user project folder, outside the plugin installation. Unsaved scene state is lost on disconnect. A timed-out edit may still be running: check its job ID instead of repeating the edit. `bl_execute` is unsandboxed Python with host access, so this is intended for a trusted personal client, not an unauthenticated public service.
+Models belong in a project subfolder of `~/Retreat 3D Models`, outside the plugin installation. Existing models and their assets must be copied there before use. Unsaved scene state is lost on disconnect. A timed-out edit may still be running: check its job ID instead of repeating the edit. `bl_execute` retains Python modeling capabilities inside the installed sandbox. The preserved direct entry points do not supply confinement. See [isolation boundaries and validation](RETREAT-ISOLATION.md).
 
 ## Validation
 

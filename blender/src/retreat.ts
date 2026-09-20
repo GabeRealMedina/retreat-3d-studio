@@ -71,6 +71,9 @@ result = {'path': str(path), 'bytes': path.stat().st_size, 'format': 'GLB'}
     description: "Read the Retreat 3D Studio workflow for creating models, saving revisions and resuming work across conversations. Works in MCP-only clients too.",
     inputSchema: z.object({}).strict(),
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
-  }, async () => ({ content: [{ type: "text" as const, text: await readFile(new URL('../skills/retreat-modeling/SKILL.md', import.meta.url), 'utf8') }] }));
+  }, async () => ({ content: [{ type: "text" as const, text:
+    `Installation workspace: ${process.env.RETREAT_MODELS_ROOT || 'not configured'}\n` +
+    `Isolation mode: ${process.env.RETREAT_SANDBOX || 'unrestricted direct runtime'}\n` +
+    await readFile(new URL('../skills/retreat-modeling/SKILL.md', import.meta.url), 'utf8') }] }));
   return server;
 }

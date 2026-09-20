@@ -4,7 +4,7 @@ Retreat 3D Studio can run behind OpenAI's [Secure MCP Tunnel](https://developers
 
 ## Installed layout
 
-The personal installation uses `~/plugins/retreat-3d-studio/.mcp.json`. `scripts/tunnel/launch-mcp.mjs` reads this installed configuration and forwards its executable, arguments and Blender environment to the tunnel's stdio process. Rebuilding the installed plugin therefore updates the server used by future connections.
+The personal installation uses `~/plugins/retreat-3d-studio/.mcp.json`. `scripts/tunnel/launch-mcp.mjs` reads this installed configuration, requires the sandbox launcher and passes only the needed workspace/Blender environment. Rebuilding the installed plugin therefore updates the server used by future connections. The modeling process has no direct network access; the separate tunnel client carries its stdio messages. See [isolation details](RETREAT-ISOLATION.md).
 
 The tunnel client, launcher and private profile are under `~/.local/share/retreat-3d-tunnel/`. The runtime key is stored separately there with owner-only permissions. Never commit that directory, copy the key into chat, or put the key in command arguments. The source repository contains no credentials or account-specific tunnel profile.
 
@@ -52,6 +52,6 @@ The included `store-runtime-key.py` is an initial-entry helper: it hides input, 
 
 The tunnel must be associated with your intended ChatGPT workspace. Enable Developer mode, then create a personal app/plugin with connection type Tunnel and select the existing Retreat 3D Studio tunnel. Use the current official guide if the UI labels change.
 
-This plugin has 22 tools, including unsandboxed Blender Python execution. Restrict it to your trusted personal workspace. Keep the normal tool approval prompts enabled and review proposed changes before allowing them.
+This plugin has 22 tools, including Blender Python execution confined by the installed macOS sandbox. It can still modify the permitted model workspace. Restrict it to your trusted personal ChatGPT workspace. Keep the normal tool approval prompts enabled and review proposed changes before allowing them.
 
 Suggested first request: “Use Retreat 3D Studio. Read retreat_workflow and check Blender health. Then help me open my saved model and save each change as a new revision.”

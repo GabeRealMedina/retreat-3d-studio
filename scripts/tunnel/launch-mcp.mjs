@@ -11,9 +11,15 @@ const config = JSON.parse(await readFile(file, 'utf8')).mcpServers?.['retreat-3d
 if (!config?.command || !Array.isArray(config.args)) {
   throw new Error('Install Retreat 3D Studio before starting its tunnel.');
 }
+const expected = join(homedir(), 'plugins', 'retreat-3d-studio', 'runtime/scripts/sandbox-launch.mjs');
+if (config.args.length !== 1 || config.args[0] !== expected) {
+  throw new Error('The private tunnel requires the isolated Retreat launcher. Rebuild the installed plugin.');
+}
 const child = spawn(config.command, config.args, {
   stdio: 'inherit',
-  env: { ...process.env, ...config.env },
+  env: { HOME: homedir(), PATH: '/usr/bin:/bin',
+    BLENDER_EXECUTABLE: config.env?.BLENDER_EXECUTABLE,
+    RETREAT_MODELS_ROOT: config.env?.RETREAT_MODELS_ROOT },
 });
 for (const signal of ['SIGINT', 'SIGTERM']) {
   process.on(signal, () => child.kill(signal));
