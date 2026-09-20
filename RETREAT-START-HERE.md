@@ -39,7 +39,7 @@ The local server uses stdio; it is not an HTTPS URL. For a private local machine
 
 Once an authorized tunnel is created, configure its local MCP command to launch Node with the absolute Retreat entry-point path and provide `BLENDER_EXECUTABLE` in the local service environment. Keep the tunnel client running, then choose that tunnel when creating the ChatGPT developer-mode plugin. Follow the linked official guide for current setup and access requirements. Do not paste credentials into source control or chat messages.
 
-No tunnel or public endpoint is automatically deployed by this build. For a local desktop client with stdio support, the generated local configuration is sufficient; account UI and feature availability still need to be checked in that client.
+No tunnel or public endpoint is automatically deployed by this build. See [private tunnel operation](RETREAT-TUNNEL.md) for the launcher, private credential storage, health checks and restart instructions used by the personal installation. For a local desktop client with stdio support, the generated local configuration is sufficient; account UI and feature availability still need to be checked in that client.
 
 ## Keep models across conversations
 
